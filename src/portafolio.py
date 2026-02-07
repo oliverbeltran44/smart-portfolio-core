@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import List
-from .modelos import Posición, Instrumento
+from modelos import Posicion, Instrumento
 
 @dataclass(frozen=True) ## Es un decorador inmutable, no se pueden modificar los atributos después de la creación. ##
 class Instrumento:
