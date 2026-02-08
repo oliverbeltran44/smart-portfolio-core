@@ -1,3 +1,8 @@
+from dataclasses import dataclass, field
+from typing import List, Dict
+from modelos import Posicion, Instrumento
+
+@dataclass
 class Portafolio:
     # posiciones: lista con todas las posiciones que componen el portafolio
     # (cada Posicion representa una inversión/tenencia concreta)
@@ -37,14 +42,14 @@ class Portafolio:
 
     def posiciones_por_ticker(self) -> Dict[str, List[Posicion]]:
         # agrupadas: mapa {ticker: [posiciones...]} para analizar exposición por instrumento
-        agrupadas: DefaultDict[str, List[Posicion]] = defaultdict(list)
+        agrupadas: Dict[str, List[Posicion]] = {}
 
         for pos in self.posiciones:
             # clave: ticker del instrumento de la posición actual
             clave: str = pos.instrumento.ticker
 
             # Se agrega la posición al grupo correspondiente
-            agrupadas[clave].append(pos)
+            agrupadas.setdefault(clave, []).append(pos)
 
         # Se devuelve como dict normal (más cómodo para serializar/mostrar)
-        return dict(agrupadas)
+        return agrupadas
