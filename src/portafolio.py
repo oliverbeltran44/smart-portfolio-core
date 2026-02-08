@@ -54,4 +54,4 @@ class Portafolio:
         # Se devuelve como dict normal (más cómodo para serializar/mostrar)
         return agrupadas
     
-    ## fff
+    ## fffccccccc
