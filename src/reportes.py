@@ -1,12 +1,10 @@
 from __future__ import annotations
-
 import json  
 from dataclasses import asdict  
 from typing import Any, Dict, List  
 from .modelos import Posicion
 from .portafolio import Portafolio  
-
-
+=======
 class ReportadorFinanciero:
     # 1) SRP (Single Responsibility): esta clase NO guarda datos
     # 2) Solo recibe un Portafolio y genera salidas (consola/archivos)
@@ -94,4 +92,3 @@ class ReportadorFinanciero:
             )
 
         # 5) Devolvemos la estructura final del portafolio
-        return {"posiciones": posiciones}
