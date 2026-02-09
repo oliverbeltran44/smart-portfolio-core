@@ -4,7 +4,7 @@ from dataclasses import asdict
 from typing import Any, Dict, List  
 from .modelos import Posicion
 from .portafolio import Portafolio  
-=======
+
 class ReportadorFinanciero:
     # 1) SRP (Single Responsibility): esta clase NO guarda datos
     # 2) Solo recibe un Portafolio y genera salidas (consola/archivos)
