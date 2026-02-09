@@ -6,8 +6,8 @@ class Instrumento:
 
     """Representa un activo financiero, inmutable."""
 
-    Ticker: str # Nombre o Sigla del Activo Financiero #
-    Tipo: str     # Tipo de Activo Financiero #
+    ticker: str # Nombre o Sigla del Activo Financiero #
+    tipo: str     # Tipo de Activo Financiero #
     sector: str        # Sector economico al que pertenece el Activo Financiero #
 
     # No hay métodos adicionales. Por ser "frozen", no se pueden
