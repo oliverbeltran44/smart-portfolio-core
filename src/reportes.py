@@ -3,7 +3,7 @@ import json
 from dataclasses import asdict  
 from typing import Any, Dict, List  
 from src.modelos import Posicion
-from src.portafolio import Portafolio  git pull --rebase origin feat/reportes
+from src.portafolio import Portafolio
 
 class ReportadorFinanciero:
     # 1) SRP (Single Responsibility): esta clase NO guarda datos
