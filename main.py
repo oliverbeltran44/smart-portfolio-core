@@ -3,8 +3,8 @@ from src.portafolio import Portafolio
 from src.reportes import ReportadorFinanciero
 
 # 1. Definir Activos
-apple = Instrumento(ticker="AAPL", tipo="Acción", sector="Tecnología")
-tesoro = Instrumento(ticker="US10Y", tipo="Bono", sector="Gobierno")
+apple = Instrumento(Ticker="AAPL", Tipo="Acción", sector="Tecnología")
+tesoro = Instrumento(Ticker="US10Y", Tipo="Bono", sector="Gobierno")
 
 # 2. Crear Operaciones (Con validación automática)
 pos1 = Posicion(instrumento=apple, cantidad=10, precio_entrada=150)
@@ -18,4 +18,4 @@ fondo.agregar_posicion(pos2)
 # 4. Reportar (SOLID en acción)
 reportador = ReportadorFinanciero()
 reportador.imprimir_resumen(fondo)
-## Entrega
+## Entrega Final
