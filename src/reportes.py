@@ -2,8 +2,8 @@ from __future__ import annotations
 import json  
 from dataclasses import asdict  
 from typing import Any, Dict, List  
-from .modelos import Posicion
-from .portafolio import Portafolio  
+from src.modelos import Posicion
+from src.portafolio import Portafolio  git pull --rebase origin feat/reportes
 
 class ReportadorFinanciero:
     # 1) SRP (Single Responsibility): esta clase NO guarda datos
