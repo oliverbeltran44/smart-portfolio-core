@@ -19,21 +19,21 @@ class Portafolio:
     def valor_total(self, precios_mercado: Dict[str, float]) -> float:
         # precios_mercado: mapa {Ticker: precio_actual} usado para valorar cada posición
         if not isinstance(precios_mercado, dict):
-            raise TypeError("precios_mercado debe ser un diccionario {Ticker: precio}")
+            raise TypeError("precios_mercado debe ser un diccionario {ticker: precio}")
 
         # total: acumulador del valor de mercado del portafolio completo
         total: float = 0.0
 
         for pos in self.posiciones:
             # ticker: identificador del instrumento asociado a la posición (ej: 'AAPL')
-            Ticker: str = pos.instrumento.ticker
+            ticker: str = pos.instrumento.ticker
 
             # precio: precio de mercado para el ticker de esta posición
             # (si falta, no se puede valorar la posición)
             try:
-                precio: float = precios_mercado[Ticker]
+                precio: float = precios_mercado[ticker]
             except KeyError as e:
-                raise KeyError(f"Falta precio de mercado para el ticker '{Ticker}'") from e
+                raise KeyError(f"Falta precio de mercado para el ticker '{ticker}'") from e
 
             # Se suma el valor actual de la posición usando el precio encontrado
             total += pos.calcular_valor_actual(precio)
