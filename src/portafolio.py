@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import List, Dict
-from .modelos import Posicion, Instrumento
+from src.modelos import Posicion, Instrumento
 
 @dataclass
 class Portafolio:
@@ -54,4 +54,8 @@ class Portafolio:
         # Se devuelve como dict normal (más cómodo para serializar/mostrar)
         return agrupadas
     
-    ## Oliver
+import pytest
+
+def test_remover_activo_inexistente_lanza_error(portafolio_vacio):
+    with pytest.raises(PosicionNoExisteError):
+        portafolio_vacio.remover_posicion("AAPL")
