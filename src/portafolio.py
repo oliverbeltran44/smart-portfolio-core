@@ -56,6 +56,14 @@ class Portafolio:
     
 import pytest
 
+def remover_posicion(self, ticker: str):
+    for pos in self.posiciones:
+        if pos.instrumento.ticker == ticker:
+            self.posiciones.remove(pos)
+            return
+    raise PosicionNoExisteError(f"No existe posición con ticker {ticker}")
+
+
 def test_remover_activo_inexistente_lanza_error(portafolio_vacio):
     with pytest.raises(PosicionNoExisteError):
         portafolio_vacio.remover_posicion("AAPL")
