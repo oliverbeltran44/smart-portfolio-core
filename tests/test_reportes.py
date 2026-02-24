@@ -20,7 +20,7 @@ from src.modelos import Posicion
  
 def test_imprimir_resumen_con_posiciones(portafolio_vacio, instrumento_test, capsys):
     rep = ReportadorFinanciero()
-    pos = Posicion(instrumento=instrumento_test, cantidad=3, precio_entrada=100)
+    pos = Posicion(instrumento=instrumento_test, _cantidad=3, precio_entrada=100)
     portafolio_vacio.agregar_posicion(pos)
     rep.imprimir_resumen(portafolio_vacio)
     salida = capsys.readouterr().out
@@ -32,7 +32,7 @@ import os
  
 def test_exportar_json(tmp_path, portafolio_vacio, instrumento_test):
     rep = ReportadorFinanciero()
-    pos = Posicion(instrumento=instrumento_test, cantidad=2, precio_entrada=100)
+    pos = Posicion(instrumento=instrumento_test, _cantidad=2, precio_entrada=100)
     portafolio_vacio.agregar_posicion(pos)
     ruta = tmp_path / "reporte.json"
     rep.exportar_json(portafolio_vacio, ruta)
@@ -44,7 +44,7 @@ import csv
  
 def test_exportar_csv(tmp_path, portafolio_vacio, instrumento_test):
     rep = ReportadorFinanciero()
-    pos = Posicion(instrumento=instrumento_test, cantidad=1, precio_entrada=100)
+    pos = Posicion(instrumento=instrumento_test, _cantidad=1, precio_entrada=100)
     portafolio_vacio.agregar_posicion(pos)
     ruta = tmp_path / "reporte.csv"
     rep.exportar_csv(portafolio_vacio, ruta)
