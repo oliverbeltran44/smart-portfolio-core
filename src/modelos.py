@@ -64,3 +64,7 @@ class Posicion:
             raise TypeError("precio_actual debe ser numérico")
 
         return (precio_actual - self.precio_entrada) * self._cantidad
+    
+class PosicionNoExisteError(Exception):
+    """Se lanza cuando se intenta remover una posición que no existe."""
+    pass
