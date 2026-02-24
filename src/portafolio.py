@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List, Dict
 from src.modelos import Posicion, Instrumento, PosicionNoExisteError
- 
+
 @dataclass
 class Portafolio:
     posiciones: List[Posicion] = field(default_factory=list)
