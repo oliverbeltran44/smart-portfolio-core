@@ -1,6 +1,9 @@
 import pytest
 from src.reportes import ReportadorFinanciero
- 
+
+class PosicionNoExisteError(Exception):
+    pass
+
 def test_imprimir_resumen_tipo_invalido():
     rep = ReportadorFinanciero()
     with pytest.raises(TypeError):

@@ -2,6 +2,9 @@ from dataclasses import dataclass, field
 from typing import List, Dict
 from src.modelos import Posicion, Instrumento, PosicionNoExisteError
 
+class PosicionNoExisteError(Exception):
+    pass
+
 @dataclass
 class Portafolio:
     posiciones: List[Posicion] = field(default_factory=list)
@@ -24,7 +27,7 @@ class Portafolio:
                 raise KeyError(f"Falta precio de mercado para el ticker '{ticker}'") from e
             
             total += pos.calcular_valor_actual(precio)
-            
+
         return total
  
     def posiciones_por_ticker(self) -> Dict[str, List[Posicion]]:
