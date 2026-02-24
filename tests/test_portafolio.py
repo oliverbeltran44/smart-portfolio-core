@@ -42,8 +42,8 @@ def test_valor_total_falta_precio(portafolio_vacio, instrumento_test):
         portafolio_vacio.valor_total({})
 
 def test_posiciones_por_ticker(portafolio_vacio, instrumento_test):
-    pos1 = Posicion(instrumento=instrumento_test, cantidad=1, precio_entrada=100)
-    pos2 = Posicion(instrumento=instrumento_test, cantidad=2, precio_entrada=120)
+    pos1 = Posicion(instrumento=instrumento_test, _cantidad=1, precio_entrada=100)
+    pos2 = Posicion(instrumento=instrumento_test, _cantidad=2, precio_entrada=120)
  
     portafolio_vacio.agregar_posicion(pos1)
     portafolio_vacio.agregar_posicion(pos2)
