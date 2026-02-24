@@ -32,7 +32,7 @@ import os
  
 def test_exportar_json(tmp_path, portafolio_vacio, instrumento_test):
     rep = ReportadorFinanciero()
-    pos = Posicion(instrumento=instrumento_test, cantidad=2, precio_entrada=100)
+    pos = Posicion(instrumento=instrumento_test, _cantidad=2, precio_entrada=100)
     portafolio_vacio.agregar_posicion(pos)
     ruta = tmp_path / "reporte.json"
     rep.exportar_json(portafolio_vacio, ruta)
