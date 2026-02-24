@@ -7,8 +7,8 @@ apple = Instrumento(ticker="AAPL", tipo="Acción", sector="Tecnología")
 tesoro = Instrumento(ticker="US10Y", tipo="Bono", sector="Gobierno")
 
 # 2. Crear Operaciones (Con validación automática)
-pos1 = Posicion(instrumento=apple, cantidad=10, precio_entrada=150)
-pos2 = Posicion(instrumento=tesoro, cantidad=5, precio_entrada=100)
+pos1 = Posicion(instrumento=apple, _cantidad=10, precio_entrada=150)
+pos2 = Posicion(instrumento=tesoro, _cantidad=5, precio_entrada=100)
 
 # 3. Gestionar Portafolio
 fondo = Portafolio()

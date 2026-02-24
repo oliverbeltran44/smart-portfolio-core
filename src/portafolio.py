@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List, Dict
-from src.modelos import Posicion, Instrumento, PosicionNoExisteError
- 
+from .modelos import Posicion, Instrumento
+
 @dataclass
 class Portafolio:
     posiciones: List[Posicion] = field(default_factory=list)
@@ -33,10 +33,5 @@ class Portafolio:
             clave = pos.instrumento.ticker
             agrupadas.setdefault(clave, []).append(pos)
         return agrupadas
- 
-    def remover_posicion(self, ticker: str):
-        for pos in self.posiciones:
-            if pos.instrumento.ticker == ticker:
-                self.posiciones.remove(pos)
-                return
-        raise PosicionNoExisteError(f"No existe posición con ticker {ticker}")
+    
+    ## Oliver

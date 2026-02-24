@@ -1,33 +1,44 @@
 from __future__ import annotations
-import json  
-from dataclasses import asdict  
-from typing import Any, Dict, List  
-from .modelos import Posicion
-from .portafolio import Portafolio  
-=======
+
+import json  # Para exportar a JSON
+from dataclasses import asdict  # Para convertir dataclasses a diccionarios
+from typing import Any, Dict, List  # Para tipado
+from .portafolio import Portafolio  # Import relativo desde src/ (misma carpeta)
+
+
 class ReportadorFinanciero:
-    # 1) SRP (Single Responsibility): esta clase NO guarda datos
-    # 2) Solo recibe un Portafolio y genera salidas (consola/archivos)
+    # ==========================================================
+    #  ReportadorFinanciero
+    #  - SRP: Esta clase NO guarda datos.
+    #  - Solo recibe un Portafolio y genera salidas:
+    #       1) imprimir en consola
+    #       2) exportar a JSON
+    #       3) exportar a CSV
+    # ==========================================================
 
     def imprimir_resumen(self, portafolio: Portafolio) -> None:
-        # 1) Validación: aseguramos que el argumento sea del tipo correcto
+        # 1) Validación: asegurar que el objeto recibido sea un Portafolio
         if not isinstance(portafolio, Portafolio):
             raise TypeError("portafolio debe ser una instancia de Portafolio")
 
-        # 2) Encabezado del reporte en consola
+        # 2) Encabezado del reporte
         print("===================================")
-        print("  RESUMEN DEL PORTAFOLIO")
+        print("📊  RESUMEN DEL PORTAFOLIO")
         print("===================================")
 
-        # 3) Caso base: si no hay posiciones, no intentamos imprimir detalles
+        # 3) Caso base: si no hay posiciones, no imprimimos detalles
         if not portafolio.posiciones:
             print("No hay posiciones registradas.")
             return
 
-        # 4) Recorremos cada posición y mostramos información clave
+        # 4) Recorremos las posiciones e imprimimos los datos principales
         for i, pos in enumerate(portafolio.posiciones, start=1):
-            inst = pos.instrumento  # 4.1) Atajo al instrumento asociado a la posición
+            inst = pos.instrumento  # Acceso rápido al instrumento asociado a la posición
+
+            # 4.1) Mostrar Instrumento (ticker, tipo, sector)
             print(f"{i}. {inst.ticker} | {inst.tipo} | {inst.sector}")
+
+            # 4.2) Mostrar datos de la posición
             print(f"   Cantidad: {pos.cantidad}")
             print(f"   Precio entrada: {pos.precio_entrada}")
             print("-----------------------------------")
@@ -41,18 +52,20 @@ class ReportadorFinanciero:
             json.dump(data, f, ensure_ascii=False, indent=2)
 
     def exportar_csv(self, portafolio: Portafolio, ruta: str) -> None:
-        # 1) Import local: solo se usa aquí (evita cargar módulos innecesarios al importar la clase)
+        # 1) Import local: solo se usa aquí (buena práctica para no cargarlo siempre)
         import csv
 
-        # 2) Creamos el archivo CSV y definimos sus columnas
+        # 2) Abrimos el archivo CSV y escribimos encabezados y filas
         with open(ruta, "w", encoding="utf-8", newline="") as f:
             writer = csv.DictWriter(
                 f,
                 fieldnames=["ticker", "tipo", "sector", "cantidad", "precio_entrada"],
             )
-            writer.writeheader()  # 2.1) Escribimos la fila de encabezados
 
-            # 3) Por cada posición generamos una fila con los datos principales
+            # 2.1) Escribimos el encabezado del CSV
+            writer.writeheader()
+
+            # 2.2) Escribimos una fila por cada posición
             for pos in portafolio.posiciones:
                 inst = pos.instrumento
                 writer.writerow(
@@ -66,16 +79,16 @@ class ReportadorFinanciero:
                 )
 
     def _portafolio_a_dict(self, portafolio: Portafolio) -> Dict[str, Any]:
-        # 1) Armamos una lista de posiciones en formato "serializable" (dict)
+        # 1) Creamos una lista donde guardaremos cada posición como diccionario
         posiciones: List[Dict[str, Any]] = []
 
         # 2) Recorremos cada posición del portafolio
         for pos in portafolio.posiciones:
             inst = pos.instrumento
 
-            # 3) Convertimos el instrumento:
+            # 3) Convertimos Instrumento a dict:
             #    - Si es dataclass, usamos asdict(inst)
-            #    - Si no, construimos el dict manualmente (más robusto)
+            #    - Si no, lo construimos manualmente
             instrumento_dict = (
                 asdict(inst)
                 if hasattr(inst, "__dataclass_fields__")
@@ -91,4 +104,5 @@ class ReportadorFinanciero:
                 }
             )
 
-        # 5) Devolvemos la estructura final del portafolio
+        # 5) Devolvemos la estructura final del portafolio (lista de posiciones)
+        return {"posiciones": posiciones}

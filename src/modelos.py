@@ -6,9 +6,11 @@ class Instrumento:
 
     """Representa un activo financiero, inmutable."""
 
-    Ticker: str # Nombre o Sigla del Activo Financiero #
-    Tipo: str     # Tipo de Activo Financiero #
+    ticker: str # Nombre o Sigla del Activo Financiero #
+    tipo: str     # Tipo de Activo Financiero #
     sector: str        # Sector economico al que pertenece el Activo Financiero #
+    nombre: str
+
 
     # No hay métodos adicionales. Por ser "frozen", no se pueden
     # modificar los atributos después de la creación. Python arrojará
@@ -55,4 +57,10 @@ class Posicion:
         """
         if not isinstance(precio_mercado, (int, float)): # Regla de negocio: El precio de mercado debe ser numérico #
             raise TypeError("precio_mercado debe ser numérico")
-        return self.cantidad * precio_mercado
+        return self._cantidad * precio_mercado
+
+    def calcular_ganancia_no_realizada(self, precio_actual: float) -> float:
+        if not isinstance(precio_actual, (int, float)):
+            raise TypeError("precio_actual debe ser numérico")
+
+        return (precio_actual - self.precio_entrada) * self._cantidad
