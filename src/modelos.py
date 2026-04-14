@@ -1,21 +1,45 @@
 from dataclasses import dataclass, field
 from typing import List
+import pandas as pd
+from sklearn.linear_model import LinearRegression
 
-@dataclass(frozen=True) ## Es un decorador inmutable, no se pueden modificar los atributos después de la creación. ##
+@dataclass
 class Instrumento:
-
     """Representa un activo financiero, inmutable."""
 
-    ticker: str # Nombre o Sigla del Activo Financiero #
-    tipo: str     # Tipo de Activo Financiero #
-    sector: str        # Sector economico al que pertenece el Activo Financiero #
-    nombre: str
 
+    def __init__(self, ticker: str, data_provider):
+        self.ticker = ticker
+        self.provider = data_provider
+        self._history = pd.DataFrame()
+        self._modelo = LinearRegression()
+        self._entrenado = False
 
-    # No hay métodos adicionales. Por ser "frozen", no se pueden
-    # modificar los atributos después de la creación. Python arrojará
-    # dataclasses.FrozenInstanceError si intenta reasignar un campo.
+    def entrenar_modelo(self):
+        """Entrena una regresión lineal sobre precios de cierre."""
+        if self._history.empty:
+            self._history = self.provider.obtener_historia(self.ticker, dias=365)
 
+        df = self._history.reset_index()
+
+        X = df.index.values.reshape(-1, 1)
+        y = df["Close"].values
+
+        self._modelo.fit(X, y)
+        self._entrenado = True
+
+        print(f"🤖 Modelo entrenado para {self.ticker}")
+
+    def predecir_precio(self, dias_futuros: int = 1) -> float:
+        if not self._entrenado:
+            self.entrenar_modelo()
+
+        ultimo_indice = len(self._history)
+        dia_objetivo = ultimo_indice + dias_futuros
+
+        pred = self._modelo.predict([[dia_objetivo]])
+
+        return float(pred[0])
 
 @dataclass  # Es una clase de datos mutable, se pueden modificar los atributos después de la creación. #
 class Posicion:
@@ -24,6 +48,18 @@ class Posicion:
     instrumento: Instrumento # Instancia de Instrumento asociada a la posición #
     _cantidad: float  # atributo interno (prefijo _) para controlarlo vía property
     precio_entrada: float     # Precio al que se adquirió el activo #
+
+    def __init__(self, ticker: str, cantidad: int, precio_compra: float):
+        self.ticker = ticker
+        self.cantidad = cantidad
+        self.precio_compra = precio_compra
+
+    def valor_actual(self, precio_actual: float) -> float:
+        return self.cantidad * precio_actual
+
+    def alerta_riesgo(self, precio_actual: float) -> bool:
+        perdida_relativa = (self.precio_compra - precio_actual) / self.precio_compra
+        return perdida_relativa > 0.10
 
     def __post_init__(self) -> None:
         """Validación de atributos inicial.
